@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.SearchView;
 import android.widget.Toast;
 
 import com.example.employee_app_room_database.Adapter.EmployeeAdapter;
@@ -23,10 +24,8 @@ public class MainActivity extends AppCompatActivity {
     ActivityMainBinding binding;
     List<Employee> employeeList;
     DatabaseHelper databaseHelper;
-    Dialog dialog;
 
-    String[] genders = {"all employees", "male", "female"};
-    ArrayAdapter<String> ad;
+    EmployeeAdapter employeeAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,13 +33,10 @@ public class MainActivity extends AppCompatActivity {
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        ad = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, genders);
-        ad.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        binding.selectGender.setAdapter(ad);
 
         employeeList = new ArrayList<>();
         databaseHelper = DatabaseHelper.getInstance(MainActivity.this);
-        showEmployees(0);
+        showEmployees();
 
         binding.addFirstEmployee.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -61,74 +57,54 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 databaseHelper.employeeDao().deleteAllEmployees();
-                showEmployees(binding.selectGender.getSelectedItemPosition());
+                showEmployees();
             }
         });
 
-
-        binding.selectGender.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        binding.searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                if (position == 0) {
-                    Toast.makeText(MainActivity.this, "All Employees", Toast.LENGTH_SHORT).show();
-                    showEmployees(0);
-                } else if (position == 1) {
-                    showEmployees(1);
-                    Toast.makeText(MainActivity.this, "Female", Toast.LENGTH_SHORT).show();
-                } else {
-                    showEmployees(2);
-                    Toast.makeText(MainActivity.this, "Male", Toast.LENGTH_SHORT).show();
-                }
+            public boolean onQueryTextSubmit(String query) {
+                return false;
             }
 
             @Override
-            public void onNothingSelected(AdapterView<?> parent) {
+            public boolean onQueryTextChange(String newText) {
+                filter(newText);
+                return false;
             }
         });
+
+    }
+
+    private void filter(String text) {
+        ArrayList<Employee> filteredlist = new ArrayList<>();
+
+        for (Employee item : employeeList) {
+            if (item.getName().toLowerCase().contains(text.toLowerCase())) {
+                filteredlist.add(item);
+            }
+        }
+        if (filteredlist.isEmpty()) {
+            Toast.makeText(this, "No Data Found..", Toast.LENGTH_SHORT).show();
+        } else {
+            employeeAdapter.filterList(filteredlist);
+        }
     }
 
 
-    public void showEmployees(int x) {
-        if (x == 0) {
-            if (databaseHelper.employeeDao().getAllEmployees().size() > 0) {
-                employeeList = databaseHelper.employeeDao().getAllEmployees();
-                binding.recyclerViewEmployees.setAdapter(new EmployeeAdapter(employeeList, MainActivity.this, databaseHelper));
-                binding.recyclerViewEmployees.setLayoutManager(new LinearLayoutManager(MainActivity.this));
-                binding.nothingFoundCard.setVisibility(View.GONE);
-                binding.deleteAllBtn.setVisibility(View.VISIBLE);
-                binding.recyclerViewEmployees.setVisibility(View.VISIBLE);
-            } else {
-                binding.deleteAllBtn.setVisibility(View.GONE);
-                binding.nothingFoundCard.setVisibility(View.VISIBLE);
-                binding.recyclerViewEmployees.setVisibility(View.GONE);
-            }
-        } else if (x == 1) {
-            if (databaseHelper.employeeDao().getAllMales().size() > 0) {
-                employeeList = databaseHelper.employeeDao().getAllEmployees();
-                binding.recyclerViewEmployees.setAdapter(new EmployeeAdapter(employeeList, MainActivity.this, databaseHelper));
-                binding.recyclerViewEmployees.setLayoutManager(new LinearLayoutManager(MainActivity.this));
-                binding.nothingFoundCard.setVisibility(View.GONE);
-                binding.deleteAllBtn.setVisibility(View.VISIBLE);
-                binding.recyclerViewEmployees.setVisibility(View.VISIBLE);
-            } else {
-                binding.deleteAllBtn.setVisibility(View.GONE);
-                binding.nothingFoundCard.setVisibility(View.VISIBLE);
-                binding.recyclerViewEmployees.setVisibility(View.GONE);
-            }
-        } else if (x == 2) {
-            if (databaseHelper.employeeDao().getAllFemales().size() > 0) {
-                employeeList = databaseHelper.employeeDao().getAllEmployees();
-                binding.recyclerViewEmployees.setAdapter(new EmployeeAdapter(employeeList, MainActivity.this, databaseHelper));
-                binding.recyclerViewEmployees.setLayoutManager(new LinearLayoutManager(MainActivity.this));
-                binding.nothingFoundCard.setVisibility(View.GONE);
-                binding.deleteAllBtn.setVisibility(View.VISIBLE);
-                binding.recyclerViewEmployees.setVisibility(View.VISIBLE);
-            } else {
-                binding.deleteAllBtn.setVisibility(View.GONE);
-                binding.nothingFoundCard.setVisibility(View.VISIBLE);
-                binding.recyclerViewEmployees.setVisibility(View.GONE);
-            }
+    public void showEmployees() {
+        if (databaseHelper.employeeDao().getAllEmployees().size() > 0) {
+            employeeList = databaseHelper.employeeDao().getAllEmployees();
+            employeeAdapter = new EmployeeAdapter(employeeList, MainActivity.this, databaseHelper);
+            binding.recyclerViewEmployees.setAdapter(employeeAdapter);
+            binding.recyclerViewEmployees.setLayoutManager(new LinearLayoutManager(MainActivity.this));
+            binding.nothingFoundCard.setVisibility(View.GONE);
+            binding.deleteAllBtn.setVisibility(View.VISIBLE);
+            binding.recyclerViewEmployees.setVisibility(View.VISIBLE);
+        } else {
+            binding.deleteAllBtn.setVisibility(View.GONE);
+            binding.nothingFoundCard.setVisibility(View.VISIBLE);
+            binding.recyclerViewEmployees.setVisibility(View.GONE);
         }
-
     }
 }

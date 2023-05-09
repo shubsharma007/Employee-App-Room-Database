@@ -142,6 +142,6 @@ public class AddEmployee extends BottomSheetDialogFragment {
         }
         this.dismiss();
 
-        ((MainActivity) context).showEmployees(0);
+        ((MainActivity) context).showEmployees();
     }
 }

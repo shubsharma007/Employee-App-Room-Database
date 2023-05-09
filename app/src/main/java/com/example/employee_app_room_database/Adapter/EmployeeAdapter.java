@@ -44,6 +44,16 @@ public class EmployeeAdapter extends RecyclerView.Adapter<EmployeeAdapter.Employ
         return new EmployeeViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.rv_employee, parent, false));
     }
 
+    // method for filtering our recyclerview items.
+    public void filterList(List<Employee> filterlist) {
+        // below line is to add our filtered
+        // list in our course array list.
+        employeeList = filterlist;
+        // below line is to notify our adapter
+        // as change in recycler view data.
+        notifyDataSetChanged();
+    }
+
     @Override
     public void onBindViewHolder(@NonNull EmployeeAdapter.EmployeeViewHolder holder, int position) {
         Employee singleUnit = employeeList.get(position);
@@ -124,7 +134,7 @@ public class EmployeeAdapter extends RecyclerView.Adapter<EmployeeAdapter.Employ
                                     public void onClick(DialogInterface dialog, int whichButton) {
 
                                         databaseHelper.employeeDao().deleteEmployee(new Employee(singleUnit.getId(), singleUnit.getName(), singleUnit.getFatherName(), singleUnit.getDob(), singleUnit.getGender(), singleUnit.getPhone(), singleUnit.getEmail(), singleUnit.getAddress(), singleUnit.getEmployeeId(), singleUnit.getDesignation(), singleUnit.getExperience(), singleUnit.isMaritalStatus(), singleUnit.getSalary()));
-                                        ((MainActivity) context).showEmployees(0);
+                                        ((MainActivity) context).showEmployees();
                                     }
                                 }
                         )
