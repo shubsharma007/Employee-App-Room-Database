@@ -32,4 +32,8 @@ public interface EmployeeDao {
 
     @Query("SELECT * FROM Employee WHERE gender = 'female' ")
     List<Employee> getAllFemales();
+
+    // Get a user by ID
+    @Query("SELECT * FROM Employee WHERE id = :id")
+    Employee getEmployeeById(int id);
 }

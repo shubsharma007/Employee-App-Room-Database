@@ -27,12 +27,12 @@ public class MainActivity extends AppCompatActivity {
 
     EmployeeAdapter employeeAdapter;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-
 
         employeeList = new ArrayList<>();
         databaseHelper = DatabaseHelper.getInstance(MainActivity.this);
@@ -101,10 +101,12 @@ public class MainActivity extends AppCompatActivity {
             binding.nothingFoundCard.setVisibility(View.GONE);
             binding.deleteAllBtn.setVisibility(View.VISIBLE);
             binding.recyclerViewEmployees.setVisibility(View.VISIBLE);
+            binding.searchView.setVisibility(View.VISIBLE);
         } else {
             binding.deleteAllBtn.setVisibility(View.GONE);
             binding.nothingFoundCard.setVisibility(View.VISIBLE);
             binding.recyclerViewEmployees.setVisibility(View.GONE);
+            binding.searchView.setVisibility(View.GONE);
         }
     }
 }

@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -46,8 +47,6 @@ public class EmployeeAdapter extends RecyclerView.Adapter<EmployeeAdapter.Employ
 
     // method for filtering our recyclerview items.
     public void filterList(List<Employee> filterlist) {
-        // below line is to add our filtered
-        // list in our course array list.
         employeeList = filterlist;
         // below line is to notify our adapter
         // as change in recycler view data.
@@ -67,9 +66,7 @@ public class EmployeeAdapter extends RecyclerView.Adapter<EmployeeAdapter.Employ
         holder.cardView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                // bottom sheet khol do
-
+                // for update
                 Bundle bundle = new Bundle();
                 bundle.putInt("Id", singleUnit.getId());
                 bundle.putString("Name", singleUnit.getName());
@@ -84,42 +81,12 @@ public class EmployeeAdapter extends RecyclerView.Adapter<EmployeeAdapter.Employ
                 bundle.putString("Experience", singleUnit.getExperience());
                 bundle.putBoolean("MaritalStatus", singleUnit.isMaritalStatus());
                 bundle.putFloat("Salary", singleUnit.getSalary());
+                bundle.putString("imagePath", singleUnit.getImagePath());
 
                 AddEmployee addEmp = new AddEmployee(databaseHelper, context);
                 FragmentManager fm = ((AppCompatActivity) context).getSupportFragmentManager();
                 addEmp.setArguments(bundle);
                 addEmp.show(fm, addEmp.getTag());
-
-//                Dialog dialog;
-//                dialog = new Dialog(context);
-//                dialog.setContentView(R.layout.add_employee_dialog);
-//                dialog.setCancelable(false);
-//                EditText et1, et2, et3, et4;
-//                et1 = dialog.findViewById(R.id.et1);
-//                et2 = dialog.findViewById(R.id.et2);
-//                et3 = dialog.findViewById(R.id.et3);
-//                et4 = dialog.findViewById(R.id.et4);
-//
-//                et1.setText(singleUnit.getName());
-//
-//                et3.setText(singleUnit.getPhone());
-//
-//                Button saveBtn = dialog.findViewById(R.id.saveBtn);
-//                saveBtn.setOnClickListener(new View.OnClickListener() {
-//                    @Override
-//                    public void onClick(View v) {
-//                        String s1, s2, s3, s4;
-//                        s1 = et1.getText().toString();
-//                        s2 = et2.getText().toString();
-//                        s3 = et3.getText().toString();
-//                        s4 = et4.getText().toString();
-// for update
-//
-////                        ((MainActivity) context).addNewEmployeeFunc(s1, s2, s3, s4, singleUnit.getId());
-//                        dialog.dismiss();
-//                    }
-//                });
-//                dialog.show();
 
             }
         });
@@ -127,13 +94,16 @@ public class EmployeeAdapter extends RecyclerView.Adapter<EmployeeAdapter.Employ
         holder.cardView.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
+
+
                 AlertDialog.Builder b = new AlertDialog.Builder(context)
                         .setTitle("Do u really want to remove this employee ???")
                         .setPositiveButton("yes proceed",
                                 new DialogInterface.OnClickListener() {
                                     public void onClick(DialogInterface dialog, int whichButton) {
-
-                                        databaseHelper.employeeDao().deleteEmployee(new Employee(singleUnit.getId(), singleUnit.getName(), singleUnit.getFatherName(), singleUnit.getDob(), singleUnit.getGender(), singleUnit.getPhone(), singleUnit.getEmail(), singleUnit.getAddress(), singleUnit.getEmployeeId(), singleUnit.getDesignation(), singleUnit.getExperience(), singleUnit.isMaritalStatus(), singleUnit.getSalary()));
+                                        Employee e = databaseHelper.employeeDao().getEmployeeById(singleUnit.getId());
+                                        databaseHelper.employeeDao().deleteEmployee(new Employee(singleUnit.getId(), singleUnit.getName(), singleUnit.getFatherName(), singleUnit.getDob(), singleUnit.getGender(), singleUnit.getPhone(), singleUnit.getEmail(), singleUnit.getAddress(), singleUnit.getEmployeeId(), singleUnit.getDesignation(), singleUnit.getExperience(), singleUnit.isMaritalStatus(), singleUnit.getSalary(), singleUnit.getImagePath()));
+                                        Toast.makeText(context, e.getName() + " removed successfully", Toast.LENGTH_SHORT).show();
                                         ((MainActivity) context).showEmployees();
                                     }
                                 }
@@ -150,6 +120,7 @@ public class EmployeeAdapter extends RecyclerView.Adapter<EmployeeAdapter.Employ
                 return true;
             }
         });
+
     }
 
     @Override

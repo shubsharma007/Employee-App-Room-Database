@@ -36,8 +36,11 @@ public class Employee {
     @ColumnInfo(name = "salary")
     private float salary;
 
+    @ColumnInfo(name = "imagePath")
+    private String imagePath;
 
-    public Employee(int id, String name, String fatherName, String dob, String gender, String phone, String email, String address, String employeeId, String designation, String experience, boolean maritalStatus, float salary) {
+
+    public Employee(int id, String name, String fatherName, String dob, String gender, String phone, String email, String address, String employeeId, String designation, String experience, boolean maritalStatus, float salary, String imagePath) {
         this.id = id;
         this.name = name;
         this.fatherName = fatherName;
@@ -51,10 +54,11 @@ public class Employee {
         this.experience = experience;
         this.maritalStatus = maritalStatus;
         this.salary = salary;
+        this.imagePath = imagePath;
     }
 
     @Ignore
-    public Employee(String name, String fatherName, String dob, String gender, String phone, String email, String address, String employeeId, String designation, String experience, boolean maritalStatus, float salary) {
+    public Employee(String name, String fatherName, String dob, String gender, String phone, String email, String address, String employeeId, String designation, String experience, boolean maritalStatus, float salary, String imagePath) {
         this.name = name;
         this.fatherName = fatherName;
         this.dob = dob;
@@ -67,6 +71,7 @@ public class Employee {
         this.experience = experience;
         this.maritalStatus = maritalStatus;
         this.salary = salary;
+        this.imagePath = imagePath;
     }
 
     public int getId() {
@@ -171,5 +176,13 @@ public class Employee {
 
     public void setSalary(float salary) {
         this.salary = salary;
+    }
+
+    public String getImagePath() {
+        return imagePath;
+    }
+
+    public void setImagePath(String imagePath) {
+        this.imagePath = imagePath;
     }
 }
