@@ -9,7 +9,7 @@ import androidx.room.RoomDatabase;
 import com.example.employee_app_room_database.Dao.EmployeeDao;
 import com.example.employee_app_room_database.Entity.Employee;
 
-@Database(entities = {Employee.class}, version = 2, exportSchema = false)
+@Database(entities = {Employee.class}, version = 3, exportSchema = false)
 public abstract class DatabaseHelper extends RoomDatabase {
     public static final String DATABASE_NAME = "employeeDatabase";
 

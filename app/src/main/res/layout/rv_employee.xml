@@ -17,7 +17,6 @@
 
         <TextView
             android:id="@+id/eIdEt"
-
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
@@ -34,14 +33,6 @@
             android:text="name"
             android:textStyle="bold" />
 
-        <TextView
-            android:id="@+id/ageEt"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:text="age"
-            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/phoneEt"
@@ -51,16 +42,6 @@
             android:gravity="center"
             android:text="phone"
             android:textStyle="bold" />
-
-        <TextView
-            android:id="@+id/weightEt"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:text="weight"
-            android:textStyle="bold" />
-
 
     </LinearLayout>
 </androidx.cardview.widget.CardView>
