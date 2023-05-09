@@ -124,7 +124,7 @@ public class EmployeeAdapter extends RecyclerView.Adapter<EmployeeAdapter.Employ
                                     public void onClick(DialogInterface dialog, int whichButton) {
 
                                         databaseHelper.employeeDao().deleteEmployee(new Employee(singleUnit.getId(), singleUnit.getName(), singleUnit.getFatherName(), singleUnit.getDob(), singleUnit.getGender(), singleUnit.getPhone(), singleUnit.getEmail(), singleUnit.getAddress(), singleUnit.getEmployeeId(), singleUnit.getDesignation(), singleUnit.getExperience(), singleUnit.isMaritalStatus(), singleUnit.getSalary()));
-                                        ((MainActivity) context).showEmployees();
+                                        ((MainActivity) context).showEmployees(0);
                                     }
                                 }
                         )

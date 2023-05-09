@@ -23,4 +23,13 @@ public interface EmployeeDao {
 
     @Query("SELECT * FROM Employee")
     List<Employee> getAllEmployees();
+
+    @Query("DELETE FROM Employee")
+    void deleteAllEmployees();
+
+    @Query("SELECT * FROM Employee WHERE gender = 'male' ")
+    List<Employee> getAllMales();
+
+    @Query("SELECT * FROM Employee WHERE gender = 'female' ")
+    List<Employee> getAllFemales();
 }
