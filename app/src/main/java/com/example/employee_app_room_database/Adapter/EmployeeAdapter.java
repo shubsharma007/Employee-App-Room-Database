@@ -30,7 +30,6 @@ import java.util.List;
 public class EmployeeAdapter extends RecyclerView.Adapter<EmployeeAdapter.EmployeeViewHolder> {
     private List<Employee> employeeList;
     Context context;
-
     DatabaseHelper databaseHelper;
 
     public EmployeeAdapter(List<Employee> employeeList, Context context, DatabaseHelper databaseHelper) {

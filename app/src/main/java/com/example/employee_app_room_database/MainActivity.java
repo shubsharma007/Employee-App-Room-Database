@@ -24,7 +24,6 @@ public class MainActivity extends AppCompatActivity {
     ActivityMainBinding binding;
     List<Employee> employeeList;
     DatabaseHelper databaseHelper;
-
     EmployeeAdapter employeeAdapter;
 
 
@@ -35,6 +34,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
 
         employeeList = new ArrayList<>();
+        // static function call hua bina function ka object bnae
         databaseHelper = DatabaseHelper.getInstance(MainActivity.this);
         showEmployees();
 
@@ -91,7 +91,6 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-
     public void showEmployees() {
         if (databaseHelper.employeeDao().getAllEmployees().size() > 0) {
             employeeList = databaseHelper.employeeDao().getAllEmployees();
@@ -102,6 +101,7 @@ public class MainActivity extends AppCompatActivity {
             binding.deleteAllBtn.setVisibility(View.VISIBLE);
             binding.recyclerViewEmployees.setVisibility(View.VISIBLE);
             binding.searchView.setVisibility(View.VISIBLE);
+
         } else {
             binding.deleteAllBtn.setVisibility(View.GONE);
             binding.nothingFoundCard.setVisibility(View.VISIBLE);
