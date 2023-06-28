@@ -230,9 +230,11 @@ public class AddEmployee extends BottomSheetDialogFragment {
     public void addNewEmployeeFunc(int Id, String name, String fatherName, String dob, String gender, String phone, String email, String address, String employeeId, String designation, String experience, boolean maritalStatus, float salary, String image) {
 
         if (Id == 0) {
+            // add flow
             databaseHelper.employeeDao().addEmployee(new Employee(name, fatherName, dob, gender, phone, email, address, employeeId, designation, experience, maritalStatus, salary, image));
             Toast.makeText(context, "employee added successfully", Toast.LENGTH_SHORT).show();
         } else {
+            // update flow
             databaseHelper.employeeDao().updateEmployee(new Employee(Id, name, fatherName, dob, gender, phone, email, address, employeeId, designation, experience, maritalStatus, salary, image));
             Toast.makeText(context, "employee updated successfully", Toast.LENGTH_SHORT).show();
         }
